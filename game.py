@@ -1,6 +1,7 @@
 import pygame
 
 from settings import Settings
+from game_ui_border import UiBorder
 
 class Game:
     def __init__(self):
@@ -10,6 +11,8 @@ class Game:
 
         self.screen = pygame.display.set_mode((self.settings.window_width, self.settings.window_height))
         pygame.display.set_caption(self.settings.winodw_caption)
+
+        self.ui_border = UiBorder(self)
 
         self.running = True
 
@@ -34,6 +37,7 @@ class Game:
 
     def _draw_screen(self):
         self.screen.fill(self.settings.window_bg_color)
+        self.ui_border.draw()
         pygame.display.flip()
 
 
