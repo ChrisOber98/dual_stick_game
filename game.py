@@ -1,7 +1,7 @@
 import pygame
 
 from settings import Settings
-from game_ui_border import UiBorder
+from ui_border import UiBorder
 
 class Game:
     def __init__(self):
