@@ -20,3 +20,7 @@ class Settings:
             self.window_width - self.ui_border_width,
             self.window_height - self.ui_border_width,
         )
+
+        self.player_width = 25
+        self.player_height = 25
+        self.player_color = (255, 0, 0)
