@@ -1,8 +1,8 @@
 import pygame
 
+from gameplay_window import GameplayWindow
 from player import Player
 from settings import Settings
-from ui_border import UiBorder
 
 
 class Game:
@@ -11,12 +11,12 @@ class Game:
 
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode(
+        self.screen_window = pygame.display.set_mode(
             (self.settings.window_width, self.settings.window_height)
         )
         pygame.display.set_caption(self.settings.winodw_caption)
 
-        self.ui_border = UiBorder(self)
+        self.gameplay_window = GameplayWindow(self)
 
         self.player = Player(self)
 
@@ -35,7 +35,7 @@ class Game:
     def _check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self._check_quit_events()
+                self._check_quit_events(event)
             if event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             if event.type == pygame.KEYUP:
@@ -65,12 +65,19 @@ class Game:
             self.player.is_moving_right = False
 
     def _update_game(self):
+        self._update_gameplay_window()
+        self._update_screen_window()
         self.player.update()
 
+    def _update_gameplay_window(self):
+        self.gameplay_window.surface.fill(self.settings.gameplay_window_bg_color)
+
+    def _update_screen_window(self):
+        self.screen_window.fill(self.settings.window_bg_color)
+
     def _draw_screen(self):
-        self.screen.fill(self.settings.window_bg_color)
-        self.ui_border.draw()
         self.player.draw()
+        self.gameplay_window.draw()
         pygame.display.flip()
         self.clock.tick(self.settings.fps)
 
