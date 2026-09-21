@@ -20,6 +20,8 @@ class Game:
 
         self.player = Player(self)
 
+        self.clock = pygame.time.Clock()
+
         self.running = True
 
     def run_game(self):
@@ -34,18 +36,43 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self._check_quit_events()
+            if event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            if event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
 
-    def _check_quit_events(self):
+    def _check_quit_events(self, event):
         self.running = False
 
+    def _check_keydown_events(self, event):
+        if event.key == pygame.K_w:
+            self.player.is_moving_up = True
+        elif event.key == pygame.K_s:
+            self.player.is_moving_down = True
+        elif event.key == pygame.K_a:
+            self.player.is_moving_left = True
+        elif event.key == pygame.K_d:
+            self.player.is_moving_right = True
+
+    def _check_keyup_events(self, event):
+        if event.key == pygame.K_w:
+            self.player.is_moving_up = False
+        elif event.key == pygame.K_s:
+            self.player.is_moving_down = False
+        elif event.key == pygame.K_a:
+            self.player.is_moving_left = False
+        elif event.key == pygame.K_d:
+            self.player.is_moving_right = False
+
     def _update_game(self):
-        pass
+        self.player.update()
 
     def _draw_screen(self):
         self.screen.fill(self.settings.window_bg_color)
         self.ui_border.draw()
         self.player.draw()
         pygame.display.flip()
+        self.clock.tick(self.settings.fps)
 
 
 if __name__ == "__main__":
